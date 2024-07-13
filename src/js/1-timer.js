@@ -1,5 +1,21 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+
+const inputRef = document.querySelector('#datetime-picker');
+const btnRef = document.querySelector('button');
+const secRef = document.querySelector('[data-seconds]');
+const minRef = document.querySelector('[data-minutes]');
+const hourRef = document.querySelector('[data-hours]');
+const dayRef = document.querySelector('[data-days');
+
+btnRef.setAttribute('disabled', true);
+btnRef.addEventListener('click', onStart);
+
+let userSelectedDate;
+let currentTime;
+let timerId;
 
 const options = {
   enableTime: true,
@@ -7,15 +23,48 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    userSelectedDate = selectedDates[0];
+    currentTime = Date.now();
+
+    if (userSelectedDate < currentTime) {
+      btnRef.setAttribute('disabled', true);
+      iziToast.error({
+        title: '',
+        message: 'Please choose a date in the future',
+        position: 'bottomLeft',
+      });
+    }
+
+    if (userSelectedDate > currentTime) {
+      btnRef.removeAttribute('disabled', true);
+    }
   },
 };
 
-let userSelectedDate;
-const inputRef = document.querySelector('#datetime-picker');
-const btnRef = document.querySelector('button');
+flatpickr(inputRef, options);
 
-inputRef.addEventListener('click', flatpickr(inputRef, options));
+function onStart() {
+  inputRef.setAttribute('disabled', true);
+
+  timerId = setInterval(() => {
+    currentTime = Date.now();
+    const time = userSelectedDate - currentTime;
+    const getTime = convertMs(time);
+
+    secRef.textContent = getTime.seconds;
+    minRef.textContent = getTime.minutes;
+    hourRef.textContent = getTime.hours;
+    dayRef.textContent = getTime.days;
+
+    if (time < 1000) {
+      clearInterval(timerId);
+    }
+  }, 1000);
+}
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
 
 function convertMs(ms) {
   const second = 1000;
@@ -23,10 +72,12 @@ function convertMs(ms) {
   const hour = minute * 60;
   const day = hour * 24;
 
-  const days = Math.floor(ms / day);
-  const hours = Math.floor((ms % day) / hour);
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const days = addLeadingZero(Math.floor(ms / day));
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+  const seconds = addLeadingZero(
+    Math.floor((((ms % day) % hour) % minute) / second)
+  );
 
   return { days, hours, minutes, seconds };
 }
