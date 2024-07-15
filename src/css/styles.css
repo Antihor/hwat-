@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   margin-right: 12px;
-  background-color: rgb(218, 192, 157);
+  background-color: rgb(244, 240, 233);
   text-align: center;
 }
 .value {
@@ -35,9 +35,13 @@ input {
   border-radius: 4px;
 }
 button {
-  width: 64px;
-  height: 32px;
+  margin-top: 8px;
+  width: 80px;
+  height: 40px;
   cursor: pointer;
-  border: 2px solid black;border-radius: 4px;background-color: rgb(99, 111, 215);
-  color: antiquewhite;
+  border: 1px solid black;border-radius: 4px;background-color: rgb(99, 111, 215);
+  color: white;
+}
+.form {
+  width: 240px;
 }

@@ -10,12 +10,12 @@ const minRef = document.querySelector('[data-minutes]');
 const hourRef = document.querySelector('[data-hours]');
 const dayRef = document.querySelector('[data-days');
 
-btnRef.setAttribute('disabled', true);
-btnRef.addEventListener('click', onStart);
-
 let userSelectedDate;
 let currentTime;
 let timerId;
+
+btnRef.setAttribute('disabled', true);
+btnRef.addEventListener('click', onStart);
 
 const options = {
   enableTime: true,
@@ -27,7 +27,6 @@ const options = {
     currentTime = Date.now();
 
     if (userSelectedDate < currentTime) {
-      btnRef.setAttribute('disabled', true);
       iziToast.error({
         title: '',
         message: 'Please choose a date in the future',
