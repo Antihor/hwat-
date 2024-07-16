@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/Antihor/hwat-/",
+    "build": "vite build --base=/hwat-/",
     "preview": "vite preview"
   },
   "devDependencies": {

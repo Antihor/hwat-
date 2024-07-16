@@ -28,6 +28,7 @@ function onSubmit(ev) {
         title: '',
         message: `✅ Fulfilled promise in ${delay}ms`,
         position: 'bottomLeft',
+        backgroundColor: 'green',
       });
     })
     .catch(() => {
@@ -35,6 +36,7 @@ function onSubmit(ev) {
         title: '',
         message: `❌ Rejected promise in ${delay}ms`,
         position: 'bottomLeft',
+        backgroundColor: 'orangeRed',
       });
     });
 
